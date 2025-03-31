@@ -76,12 +76,12 @@
 
 setTimeout(() => {
   fetch(gasUrl)
-    .then(res => res.text())
-    .then(resultText => {
-      document.body.insertAdjacentHTML("beforeend", `<pre style="z-index:9999; position:fixed; bottom:10px; left:10px; background:#eee; padding:1em;">返答: ${resultText}</pre>`);
-      const [result, commentRaw] = resultText.split("::");
-      const comment = (typeof commentRaw === "string") ? commentRaw.trim() : "";
-      const messageBox = document.getElementById('completeMessage');
+    .then(res => res.json())
+    .then(data => {
+      const result = data.result;
+      const comment = data.comment;
+
+      console.log("結果:", result, "コメント:", comment);
       const title = messageBox.querySelector('h2');
       const text = messageBox.querySelector('p');
 
