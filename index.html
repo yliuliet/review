@@ -94,12 +94,25 @@ setTimeout(() => {
         document.getElementById('btn-yes').onclick = () => {
           title.textContent = '下記の内容をコピーして投稿にお使いください：';
           text.innerHTML = `
-            <textarea id="commentText" rows="4" style="width: 100%;">${comment}</textarea>
-            <br>
-            <button onclick="navigator.clipboard.writeText(document.getElementById('commentText').value)">コピーする</button>
-            <br><br>
-            <button onclick="window.location.href='https://search.google.com/local/writereview?placeid=ChIJxxUHwGiNGGAR-pgKrewF0tk'">次へ</button>
-          `;
+  <textarea id="commentText" rows="4" style="width: 100%;">${comment}</textarea>
+  <br>
+  <button id="copyBtn">コピーする</button>
+  <br><br>
+  <button id="nextBtn">次へ</button>
+`;
+
+// イベントリスナーで分離して設定
+document.getElementById('copyBtn').onclick = () => {
+  const textArea = document.getElementById('commentText');
+  if (textArea) {
+    navigator.clipboard.writeText(textArea.value);
+  }
+};
+
+document.getElementById('nextBtn').onclick = () => {
+  window.location.href = highScoreUrl;
+};
+        
         };
 
         document.getElementById('btn-no').onclick = () => {
