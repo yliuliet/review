@@ -53,7 +53,7 @@
 
   const formUrlBase = "https://docs.google.com/forms/d/e/1FAIpQLSf-s2ifJ7mpHklsRDYmZdCmkdz4NAVJ9zKwq9q5-w89IaOEYQ/viewform?embedded=true";
   const uuidField = "entry.809828328"; // UUID用のエントリID
-  const gasUrl = "https://script.google.com/macros/s/AKfycbzpx4lDrrv7TqM5_Wen03RwEfaWSb0FDvEMd7iWsYcTZ8tZ5fXK5VGlIZ_W6b6jh28n3Q/exec";
+  const gasUrl = "https://script.google.com/macros/s/AKfycbw17OTFsGs2_1xb9y866nrLhoc7Gp7GMRT7q9a9Kx0H_9Qjo_gUVc-SK0hqXpaEh01_7Q/exec";
   document.getElementById('gform').src = `${formUrlBase}&${uuidField}=${uuid}`;
 
   let loadCount = 0;
@@ -63,7 +63,7 @@
       document.getElementById('completeMessage').style.display = 'block';
       setTimeout(() => {
         window.location.href = `${gasUrl}?uuid=${uuid}`;
-      }, 1800);
+      }, 4000);
     }
   };
 </script>
