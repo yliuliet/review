@@ -9,7 +9,6 @@
       margin: 0;
       font-family: sans-serif;
       background: #f9f9f9;
-      overflow-x: hidden;
     }
 
     iframe {
@@ -23,14 +22,14 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: #ffffff;
-      border-radius: 12px;
+      background: #fff;
       padding: 2em;
+      border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       display: none;
+      animation: fadeIn 0.4s ease-out forwards;
       z-index: 999;
       text-align: center;
-      animation: fadeIn 0.5s ease-out forwards;
     }
 
     @keyframes fadeIn {
@@ -50,7 +49,7 @@
 
 <script>
   const formUrlBase = "https://docs.google.com/forms/d/e/1FAIpQLSf-s2ifJ7mpHklsRDYmZdCmkdz4NAVJ9zKwq9q5-w89IaOEYQ/viewform?embedded=true";
-  const gasUrl = "https://script.google.com/macros/s/AKfycbzbGroCDuiRrDvhE3gh-cxw-8xcrAGNeDdoaS4YZEWBgW2OpF-eGzb6Gv3Kuq2kQl0-Hg/exec";
+  const gasUrl = "https://script.google.com/macros/s/AKfycbxSzDU4BN2gsfYaEACj_lz_ZdorL7UxULqJpNPuEjcSeX5rt9EyQZOTJGg401b3YCMS7Q/exec";
 
   document.getElementById('gform').src = formUrlBase;
 
@@ -59,15 +58,24 @@
     loadCount++;
     if (loadCount > 1) {
       document.getElementById('completeMessage').style.display = 'block';
+
       setTimeout(() => {
-        window.location.href = gasUrl;
-      }, 3000); // 3秒後に判定へ遷移
+        fetch(gasUrl)
+          .then(res => res.text())
+          .then(result => {
+            const destination = result === "high"
+              ? "https://example.com/high-score"
+              : "https://example.com/low-score";
+            window.location.href = destination;
+          })
+          .catch(err => {
+            console.error("GAS fetch failed:", err);
+            alert("集計に失敗しました。もう一度お試しください。");
+          });
+      }, 3000); // 3秒後に処理開始
     }
   };
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
