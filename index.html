@@ -32,6 +32,20 @@
       text-align: center;
     }
 
+    #completeMessage button {
+  margin: 0.5em;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+}
+#completeMessage button#btn-no {
+  background-color: #aaa;
+}
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translate(-50%, -40%); }
       to   { opacity: 1; transform: translate(-50%, -50%); }
@@ -44,11 +58,6 @@
   <h2>ありがとうございます！</h2>
   <p>集計中です…</p>
 </div>
-
-<div id="goodbyeMessage">
-  <h2>ご協力ありがとうございました</h2>
-  <p>貴重なご意見を今後に活かしてまいります。</p>
-</div>  
 
 <iframe id="gform" src="" allowfullscreen></iframe>
 
@@ -66,21 +75,39 @@
       document.getElementById('completeMessage').style.display = 'block';
 
       setTimeout(() => {
-        fetch(gasUrl)
-          .then(res => res.text())
-          .then(result => {
-            if (result === "high") {
-              window.location.href = highScoreUrl;
-            } else {
-              // low の場合はメッセージだけ表示して遷移しない
-              document.getElementById('goodbyeMessage').style.display = 'block';
-            }
-          })
-          .catch(err => {
-            console.error("GAS fetch failed:", err);
-            alert("集計に失敗しました。もう一度お試しください。");    
-          });
-      }, 3000); // 3秒後に処理開始
+  fetch(gasUrl)
+    .then(res => res.text())
+    .then(result => {
+      const messageBox = document.getElementById('completeMessage');
+      const title = messageBox.querySelector('h2');
+      const text = messageBox.querySelector('p');
+
+      if (result === "high") {
+        title.textContent = 'google口コミを投稿しますか？';
+        text.innerHTML = `
+          <button id="btn-yes">はい</button>
+          <button id="btn-no">いいえ</button>
+        `;
+
+        document.getElementById('btn-yes').onclick = () => {
+          window.location.href = highScoreUrl;
+        };
+        document.getElementById('btn-no').onclick = () => {
+          title.textContent = 'ご協力ありがとうございました！';
+        };
+        
+      } else if (result === "low") {
+        title.textContent = 'ご協力ありがとうございました！';
+        text.textContent = '貴重なご意見を今後に活かしてまいります。';
+      } else {
+        throw new Error("不明な返答: " + result);
+      }
+    })
+    .catch(err => {
+      console.error("GAS fetch failed:", err);
+      alert("集計に失敗しました。もう一度お試しください。");
+    });
+}, 3000);
     }
   };
 </script>
