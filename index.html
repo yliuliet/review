@@ -78,10 +78,9 @@ setTimeout(() => {
   fetch(gasUrl)
     .then(res => res.text())
     .then(resultText => {
-      console.log("GASからの生の返答:", resultText);
+      document.body.insertAdjacentHTML("beforeend", `<pre style="z-index:9999; position:fixed; bottom:10px; left:10px; background:#eee; padding:1em;">返答: ${resultText}</pre>`);
       const [result, commentRaw] = resultText.split("::");
       const comment = commentRaw ? commentRaw.trim() : "";
-      console.log("error");
       const messageBox = document.getElementById('completeMessage');
       const title = messageBox.querySelector('h2');
       const text = messageBox.querySelector('p');
