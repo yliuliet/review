@@ -74,10 +74,11 @@
     if (loadCount > 1) {
       document.getElementById('completeMessage').style.display = 'block';
 
-      setTimeout(() => {
+setTimeout(() => {
   fetch(gasUrl)
     .then(res => res.text())
-    .then(result => {
+    .then(resultText => {
+      const [result, comment] = resultText.split("::");
       const messageBox = document.getElementById('completeMessage');
       const title = messageBox.querySelector('h2');
       const text = messageBox.querySelector('p');
@@ -90,17 +91,25 @@
         `;
 
         document.getElementById('btn-yes').onclick = () => {
-          window.location.href = highScoreUrl;
+          title.textContent = '下記の内容をコピーして投稿にお使いください：';
+          text.innerHTML = `
+            <textarea id="commentText" rows="4" style="width: 100%;">${comment}</textarea>
+            <br>
+            <button onclick="navigator.clipboard.writeText(document.getElementById('commentText').value)">コピーする</button>
+            <br><br>
+            <button onclick="window.location.href='https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID'">次へ</button>
+          `;
         };
+
         document.getElementById('btn-no').onclick = () => {
           title.textContent = 'ご協力ありがとうございました！';
         };
-        
+
       } else if (result === "low") {
         title.textContent = 'ご協力ありがとうございました！';
         text.textContent = '貴重なご意見を今後に活かしてまいります。';
       } else {
-        throw new Error("不明な返答: " + result);
+        throw new Error("不明なレスポンス: " + resultText);
       }
     })
     .catch(err => {
@@ -108,6 +117,7 @@
       alert("集計に失敗しました。もう一度お試しください。");
     });
 }, 3000);
+      
     }
   };
 </script>
