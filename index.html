@@ -78,6 +78,7 @@ setTimeout(() => {
   fetch(gasUrl)
     .then(res => res.text())
     .then(resultText => {
+      console.log("GASからの生の返答:", resultText);
       const [result, commentRaw] = resultText.split("::");
       const comment = commentRaw ? commentRaw.trim() : "";
       console.log("error");
