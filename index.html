@@ -45,6 +45,11 @@
   <p>集計中です…</p>
 </div>
 
+<div id="goodbyeMessage">
+  <h2>ご協力ありがとうございました</h2>
+  <p>貴重なご意見を今後に活かしてまいります。</p>
+</div>  
+
 <iframe id="gform" src="" allowfullscreen></iframe>
 
 <script>
@@ -68,8 +73,7 @@
               window.location.href = highScoreUrl;
             } else {
               // low の場合はメッセージだけ表示して遷移しない
-              messageBox.querySelector('h2').textContent = 'ご協力ありがとうございました！';
-              messageBox.querySelector('p').textContent = '貴重なご意見を今後に活かしてまいります。';
+              document.getElementById('goodbyeMessage').style.display = 'block';
             }
           })
           .catch(err => {
