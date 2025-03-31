@@ -80,6 +80,7 @@ setTimeout(() => {
     .then(resultText => {
       const [result, commentRaw] = resultText.split("::");
       const comment = commentRaw ? commentRaw.trim() : "";
+      consolo.log(comment);
       const messageBox = document.getElementById('completeMessage');
       const title = messageBox.querySelector('h2');
       const text = messageBox.querySelector('p');
@@ -110,7 +111,7 @@ document.getElementById('copyBtn').onclick = () => {
 };
 
 document.getElementById('nextBtn').onclick = () => {
-  window.location.href = highScoreUrl;
+  window.location.href = 'https://search.google.com/local/writereview?placeid=ChIJxxUHwGiNGGAR-pgKrewF0tk';
 };
         
         };
