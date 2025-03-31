@@ -80,7 +80,7 @@ setTimeout(() => {
     .then(resultText => {
       const [result, commentRaw] = resultText.split("::");
       const comment = commentRaw ? commentRaw.trim() : "";
-      console.log(comment);
+      console.log("error");
       const messageBox = document.getElementById('completeMessage');
       const title = messageBox.querySelector('h2');
       const text = messageBox.querySelector('p');
