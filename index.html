@@ -50,7 +50,8 @@
 <script>
   const formUrlBase = "https://docs.google.com/forms/d/e/1FAIpQLSf-s2ifJ7mpHklsRDYmZdCmkdz4NAVJ9zKwq9q5-w89IaOEYQ/viewform?embedded=true";
   const gasUrl = "https://script.google.com/macros/s/AKfycbxSzDU4BN2gsfYaEACj_lz_ZdorL7UxULqJpNPuEjcSeX5rt9EyQZOTJGg401b3YCMS7Q/exec";
-
+  const highScoreUrl = "https://search.google.com/local/writereview?placeid=ChIJxxUHwGiNGGAR-pgKrewF0tk"; // 高評価の場合の遷移先
+  
   document.getElementById('gform').src = formUrlBase;
 
   let loadCount = 0;
@@ -63,14 +64,17 @@
         fetch(gasUrl)
           .then(res => res.text())
           .then(result => {
-            const destination = result === "high"
-              ? "https://search.google.com/local/writereview?placeid=ChIJxxUHwGiNGGAR-pgKrewF0tk"
-              : "https://www.google.com";
-            window.location.href = destination;
+            if (result === "high") {
+              window.location.href = highScoreUrl;
+            } else {
+              // low の場合はメッセージだけ表示して遷移しない
+              messageBox.querySelector('h2').textContent = 'ご協力ありがとうございました！';
+              messageBox.querySelector('p').textContent = '貴重なご意見を今後に活かしてまいります。';
+            }
           })
           .catch(err => {
             console.error("GAS fetch failed:", err);
-            alert("集計に失敗しました。もう一度お試しください。");
+            alert("集計に失敗しました。もう一度お試しください。");    
           });
       }, 3000); // 3秒後に処理開始
     }
