@@ -79,6 +79,7 @@ setTimeout(() => {
     .then(res => res.text())
     .then(resultText => {
       const [result, comment] = resultText.split("::");
+      const comment = commentRaw ? commentRaw.trim() : "";
       const messageBox = document.getElementById('completeMessage');
       const title = messageBox.querySelector('h2');
       const text = messageBox.querySelector('p');
