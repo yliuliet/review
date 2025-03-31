@@ -64,8 +64,8 @@
           .then(res => res.text())
           .then(result => {
             const destination = result === "high"
-              ? "https://example.com/high-score"
-              : "https://example.com/low-score";
+              ? "https://search.google.com/local/writereview?placeid=ChIJxxUHwGiNGGAR-pgKrewF0tk"
+              : "https://www.google.com";
             window.location.href = destination;
           })
           .catch(err => {
